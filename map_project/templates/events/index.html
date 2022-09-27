@@ -1,0 +1,25 @@
+{% extends 'todos/base.html' %}
+
+{% block title %}
+{{request.user.username}} | Todo App
+{% endblock %}
+
+{% block content %}
+
+{% include 'map_app/_form.html' with path="create" button_text="Add"%}
+
+<h4>Event:</h4>
+{% for event in events %}
+  <div>
+    <a href="{% url 'delete' event.id %}">Delete</a>
+  </div>
+{% endfor %}
+
+<h4>Completed:</h4>
+{% for event in completed %}
+  <div>
+    <a href="{% url 'delete' event.id %}">Delete</a>
+  </div>
+{% endfor %}
+
+{% endblock %}

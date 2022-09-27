@@ -1,0 +1,11 @@
+{% extends 'map_app/base.html' %}
+
+{% block title %}
+Login
+{% endblock title %}
+
+{% block content %}
+<h1>Login</h1>
+{% include 'map_app/_form.html' with path="login" button_text="Login" %}
+
+{% endblock content %}
