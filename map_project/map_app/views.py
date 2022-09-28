@@ -2,8 +2,6 @@ from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
-from django.utils import timezone
-
 from .forms import AuthForm, EventForm
 from .models import Event
 
@@ -12,25 +10,25 @@ from .models import Event
 def index(request):
     # if request.user.is_anonymous:
     #     return redirect('login')
-    events = Event.objects.filter(user=request.user, completed_date__isnull=True)
+    events = Event.objects.all()
     
 
     context = {
-        "event": events,
+        "events": events,
         "form": EventForm()
     }
 
     return render(request, 'map_app/index.html', context)
 
 
-@login_required
+@login_required 
 def create(request):
     if request.method == "POST":
         form = EventForm(request.POST)
         if form.is_valid():
             event_item = Event()
-            event_item.text = form.cleaned_data['text']
-            event_item.user = request.user
+            event_item.title = form.cleaned_data['title']
+            #event_item.user = request.user
             event_item.save()
 
     return redirect('index')
@@ -55,17 +53,17 @@ def signup(request):
                 password=form.cleaned_data['password']
             )
             auth.login(request, user)
-            return render(request, 'events/signup.html')
+            return render(request, 'map_app/signup.html')
         else:
             context = {
                 'form': form
             }
-            return render(request, 'events/signup.html', context)
+            return render(request, 'map_app/signup.html', context)
 
     context = {
         'form': AuthForm()
     }
-    return render(request, 'events/signup.html', context)
+    return render(request, 'map_app/signup.html', context)
 
 
 def login(request):
@@ -85,12 +83,12 @@ def login(request):
         context = {
             "form": form
         }
-        return render(request, 'events/login.html', context)
+        return render(request, 'map_app/login.html', context)
 
     context = {
         "form": AuthForm()
     }
-    return render(request, 'events/login.html', context)
+    return render(request, 'map_app/login.html', context)
 
 
 def logout(request):
