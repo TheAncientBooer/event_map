@@ -1,7 +1,0 @@
-{% extends 'map_app/base.html' %}
-{% block title %}
-{{request.user.username}} | map_app/base.html
-{% endblock %}
-{% block content %}
-{% include 'map_app/_form.html' with path="create" button_text="Post Event"%}
-{% endblock %}
