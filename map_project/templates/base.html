@@ -1,0 +1,40 @@
+<!-- templates/base.html -->
+<!DOCTYPE html>
+{% load crispy_forms_tags %}
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}Base Template for auth functions{% endblock %}</title>
+</head>
+<body>
+    <!--Auth Navbar-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="{% url 'index' %}">Home</a>
+        
+                <a class="nav-item active">
+                    <a class="nav-link" href="{% url 'signup' %}">Sign up<span class="sr-only"></span></a>
+                </a
+
+                <li class="login/out">  
+                {% comment %} {% block content %} {% endcomment %}
+                {% if user.is_authenticated %}
+                Logged in as {{ user.username }}!
+                <p><a href="{% url 'logout' %}">Log Out</a></p>
+                {% else %}
+                {% comment %} <p>You are not logged in</p> {% endcomment %}
+                <a href="{% url 'login' %}">Log In</a>
+                {% endif %}
+                {% comment %} {% endblock %} {% endcomment %}
+                </li>
+
+            </ul>
+        </div>
+    </nav>
+    <!--End Auth Navbar-->
+  <main>
+    {% block content %}
+    
+    {% endblock %}
+  </main>
+</body>
+</html>
