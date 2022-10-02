@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import Event
@@ -7,12 +6,12 @@ import folium
 import geocoder
 
 def index(request):
-    if request.method == 'POST':
-        form = EventForm(request.POST) 
-        if form.is_valid():
-            form.save()
-            return redirect('/')        ####################Original code
-    else:
+    # if request.method == 'POST':
+    #     form = EventForm(request.POST or None) 
+    #     if form.is_valid():
+    #         form.save()
+    #         return redirect('/')        ####################Original code
+    if request.method == 'GET':
         form = EventForm()
     address = Event.objects.all().last()
     location = geocoder.osm(address)
@@ -40,8 +39,8 @@ def index(request):
         'form': form,
         'm': m,
         'address': address,
-        'lat': lat,
-        'lng': lng,
+        # 'lat': lat,
+        # 'lng': lng,
         'country': country,
     }
     return render(request, 'index.html', context)
