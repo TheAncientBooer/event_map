@@ -4,46 +4,44 @@ from .models import Event
 from .forms import EventForm
 import folium
 import geocoder
+import creds
+# def index(request):
+#     event_list = Event.objects.all()
+#     return render(request, 'index.html',
+#         {'event_list': event_list})
 
 def index(request):
-    # if request.method == 'POST':
-    #     form = EventForm(request.POST or None) 
-    #     if form.is_valid():
-    #         form.save()
-    #         return redirect('/')        ####################Original code
-    if request.method == 'GET':
-        form = EventForm()
-    address = Event.objects.all().last()
-    location = geocoder.osm(address)
-    lat = location.lat
-    lng = location.lng
-    country = location.country
-    # if lat == None or lng == None:
-    #     address.delete()
-    #     return HttpResponse('Please enter a valid address. Refresh the page to try again.')
+    #for event in Event:
+        event = Event.objects.all()
+        event_address = '25 E Cedar st 97355'
+        location = geocoder.google(event_address, key= creds.key)
+        location = location.latlng
+        lat = location[0]
+        lng = location[1]
 
-    # Create Map Object
-    m = folium.Map(location=[45.5236, -122.6750], zoom_start=1.5) #works
-    #tooltip = "View Event!"
+        # if lat == None or lng == None:
+        #     address.delete()
+        #     return HttpResponse('Please enter a valid address. Refresh the page to try again.')
+        # Create Map Object
+        m = folium.Map(location=[45.5236, -122.6750], zoom_start=1.5) #works
+        folium.Marker(
+            location=[lat, lng],
+            popup=Event.title,
+            #tooltip=title,
+        ).add_to(m)
 
-    # Add Marker
-    folium.Marker(
-        location=[lat, lng],
-        popup=address,
-        icon=folium.Icon(color='red', icon='info-sign')
-    ).add_to(m)
+        m = m._repr_html_()
+            #Add Marker
+    
 
-    m = m._repr_html_()
-
-    context = {
-        'form': form,
-        'm': m,
-        'address': address,
-        # 'lat': lat,
-        # 'lng': lng,
-        'country': country,
-    }
-    return render(request, 'index.html', context)
+        context = {
+            'event': event,
+            'm': m,
+            'address': event_address,
+            'lat': lat,
+            'lng': lng,
+        }
+        return render(request, 'index.html', context)
     #folium.Marker([45.3288, -121.6625], popup= title, tooltip=tooltip).add_to(m) #change tooltip to event title
     # folium.Marker([45.3311, -121.7113], popup="<i>Timberline Lodge</i>", tooltip=tooltip).add_to(m)
     # folium.Marker([33.41063301181929, -82.13471009798371], popup="<i>Annex</i>", tooltip=tooltip).add_to(m)
@@ -67,3 +65,7 @@ def post_event(request):
         return redirect('/')
     context = {'form': form,}
     return render(request, 'post_event.html', context)
+
+
+
+
