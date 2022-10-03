@@ -10,10 +10,10 @@ import creds
 #     return render(request, 'index.html',
 #         {'event_list': event_list})
 
-def index(request):
+def index(request):   ########################## Need to loop through all events and add to map
     #for event in Event:
         event = Event.objects.all()
-        event_address = '25 E Cedar st 97355'
+        event_address = '25 E Cedar st 97355' #########Event.address/ This is a placeholder because I couldn't get the address to work from the database
         location = geocoder.google(event_address, key= creds.key)
         location = location.latlng
         lat = location[0]
