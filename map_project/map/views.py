@@ -26,8 +26,8 @@ def index(request):
         m = folium.Map(location=[45.5236, -122.6750], zoom_start=1.5) #works
         folium.Marker(
             location=[lat, lng],
-            popup=Event.title,
-            #tooltip=title,
+            popup='WHAT IS THIS',
+            tooltip='View Event',
         ).add_to(m)
 
         m = m._repr_html_()
