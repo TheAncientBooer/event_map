@@ -2,6 +2,7 @@ from django.contrib import admin
 from map import views as map_views
 from django.urls import path, include
 from django.views.generic.base import TemplateView
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 
 urlpatterns = [
@@ -11,4 +12,4 @@ urlpatterns = [
     path("accounts/", include("django.contrib.auth.urls")),
     path('', TemplateView.as_view(template_name='index.html'), name='home'),
     path('', include('map.urls')),
-] 
+]  + staticfiles_urlpatterns()
